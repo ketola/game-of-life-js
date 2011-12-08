@@ -1,0 +1,79 @@
+<html>
+<head>
+<link rel="stylesheet" href="css/qunit-git.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/raphael.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/jquery.js" charset="UTF-8"></script>
+<script src="js/game-of-life.js"></script>
+<script src="js/qunit-git.js"></script>
+<script>
+
+$(document).ready(function(){
+  
+	test("Construct Game of Life", function() {
+		var gameOfLife = new GameOfLife(15, 15);
+		equal( gameOfLife.sizeX, 15, "Grid X size is 15" );
+		equal( gameOfLife.sizeY, 15, "Grid Y size is 15" );
+	});
+	
+	test("Still block", function() {
+		var gameOfLife = new GameOfLife(10, 10);
+
+		gameOfLife.grid[1][1].alive = true;
+		gameOfLife.grid[1][2].alive = true;
+		gameOfLife.grid[2][1].alive = true;
+		gameOfLife.grid[2][2].alive = true;
+		
+		gameOfLife.nextGeneration();
+		
+		equal(gameOfLife.grid[0][0].alive, false);
+		equal(gameOfLife.grid[0][1].alive, false);
+		equal(gameOfLife.grid[0][2].alive, false);
+		equal(gameOfLife.grid[0][3].alive, false);
+		
+		equal(gameOfLife.grid[1][0].alive, false);
+		equal(gameOfLife.grid[2][0].alive, false);
+		equal(gameOfLife.grid[1][3].alive, false);
+		equal(gameOfLife.grid[2][3].alive, false);
+		
+		equal(gameOfLife.grid[1][1].alive, true);
+		equal(gameOfLife.grid[1][2].alive, true);
+		equal(gameOfLife.grid[2][1].alive, true);
+		equal(gameOfLife.grid[2][2].alive, true);
+		
+		equal(gameOfLife.grid[3][0].alive, false);
+		equal(gameOfLife.grid[3][1].alive, false);
+		equal(gameOfLife.grid[3][2].alive, false);
+		equal(gameOfLife.grid[3][3].alive, false);
+	});
+
+	test("Blinker oscillator", function() {
+		var gameOfLife = new GameOfLife(10, 10);
+
+		gameOfLife.grid[1][2].alive = true;
+		gameOfLife.grid[2][2].alive = true;
+		gameOfLife.grid[3][2].alive = true;
+		
+		gameOfLife.nextGeneration();
+
+		equal(gameOfLife.grid[2][1].alive, true);
+		equal(gameOfLife.grid[2][2].alive, true);
+		equal(gameOfLife.grid[2][3].alive, true);
+
+		equal(gameOfLife.grid[1][2].alive, false);
+		equal(gameOfLife.grid[3][2].alive, false);
+	});
+});
+</script>
+</head>
+<body>
+
+<h1 id="qunit-header">QUnit example</h1>
+ <h2 id="qunit-banner"></h2>
+ <div id="qunit-testrunner-toolbar"></div>
+ <h2 id="qunit-userAgent"></h2>
+ <ol id="qunit-tests"></ol>
+ <div id="qunit-fixture">test markup, will be hidden</div>
+ 
+</body>
+
+</html>
