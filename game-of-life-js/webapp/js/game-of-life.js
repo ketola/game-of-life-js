@@ -49,6 +49,16 @@ function GameOfLife(sizeX, sizeY) {
 		}
 		return count;
 	}
+	
+	this.setSizeX = function(newSizeX){
+		if(this.sizeX > newSizeX){
+		
+		} else if (this.sizeY > newSizeX){
+		
+		}
+		
+		this.sizeX = newSizeX;
+	};
 
 	this.nextGeneration = function() {
 		var changingCells = new Array(10);
