@@ -50,14 +50,24 @@ function GameOfLife(sizeX, sizeY) {
 		return count;
 	}
 	
-	this.setSizeX = function(newSizeX){
-		if(this.sizeX > newSizeX){
+	this.resize = function(newX, newY){
+		var newGrid = new Array(newX);
 		
-		} else if (this.sizeY > newSizeX){
-		
+		for ( var i = 0; i < newX; i++) {
+			newGrid[i] = new Array(newY);	
+			for ( var j = 0; j < newY; j++) {
+				var cell = (this.grid[i] != undefined ? this.grid[i][j] : undefined);
+				if(cell != undefined){
+					newGrid[i][j] = cell;
+				} else {
+					newGrid[i][j] = new Cell();
+				}
+			}
 		}
 		
-		this.sizeX = newSizeX;
+		this.grid = newGrid;
+		this.sizeX = newX;
+		this.sizeY = newY;
 	};
 
 	this.nextGeneration = function() {

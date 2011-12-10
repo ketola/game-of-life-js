@@ -1,9 +1,9 @@
 var gameOfLife;
 var paper;
+var nextGenerationTimeout; 
 
 $(document).ready(function() {
 	gameOfLife = new GameOfLife(30, 30);
-	paper = Raphael(document.getElementById("drawArea"), 320, 320);
 
 	gameOfLife.grid[16][17].alive = true;
 	gameOfLife.grid[15][17].alive = true;
@@ -20,19 +20,18 @@ $(document).ready(function() {
 	gameOfLife.grid[11][13].alive = true;
 	gameOfLife.grid[12][13].alive = true;
 	gameOfLife.grid[13][13].alive = true;
-
-	var InputSizeX = Backbone.View.extend( {
-		el : $("#sizeX"),
-		render : function() {
-			alert(this.gameOfLife.sizeX);
-			$(this.el).value(this.gameOfLife.sizeX);
-			return this;
-		}
-	});
-
+	
+	createDrawArea();
 	createViewObjects();
 	drawGameOfLife();
 });
+
+function createDrawArea(gameOfLifeSizeX, gameOfLifeSizeY){
+	if(paper != undefined){
+		paper.remove();
+	}
+	paper = Raphael(document.getElementById("drawArea"), gameOfLifeSizeX * 10 + 20, gameOfLifeSizeY * 10 + 20);
+}
 
 function drawRect(x, y) {
 	x = Math.floor(x / 10) * 10;
@@ -53,15 +52,15 @@ function log(object) {
 
 function drawGameOfLife() {
 	paper.clear();
-	var rect = paper.rect(0, 0, 300, 300, 2);
+	var rect = paper.rect(0, 0, gameOfLife.sizeX * 10, gameOfLife.sizeY * 10, 2);
 	rect.attr("fill", "#F3FAEE");
 	rect.attr("stroke", "#FBFBFB");
 	rect.click(function(event) {
 		drawRect(event.layerX, event.layerY);
 	});
 
-	for ( var i = 0; i < 30; i++) {
-		for ( var j = 0; j < 30; j++) {
+	for ( var i = 0; i < gameOfLife.sizeX; i++) {
+		for ( var j = 0; j < gameOfLife.sizeY; j++) {
 			if (gameOfLife.grid[i][j].alive == true) {
 				drawRect(i * 10, j * 10);
 			}
@@ -73,7 +72,14 @@ function drawGameOfLife() {
 
 function drawNextGeneration() {
 	gameOfLife.nextGeneration();
-	var t = setTimeout("drawGameOfLife()", 200);
+	nextGenerationTimeout = setTimeout("drawGameOfLife()", 200);
+}
+
+function resizeGrid(newX, newY){
+	clearTimeout(nextGenerationTimeout);
+	gameOfLife.resize(newX, newY);
+	createDrawArea(newX, newY);
+    drawGameOfLife();
 }
 
 function createViewObjects() {
@@ -83,17 +89,18 @@ function createViewObjects() {
 		},
 		
 		render: function(){
-			var template = _.template( $("#controlsTemplate").html(), {} );
+			var template = _.template( $("#controlsTemplate").html(), {sizeX: gameOfLife.sizeX, sizeY: gameOfLife.sizeY} );
 			this.el.html( template );
 		},
 		
 		events: {
-            "click input[type=button]": "doSearch"
+            "click input[id=buttonSetGridSize]": "doSearch"
         },
         
         doSearch: function( event ){
-            // Button clicked, you can access the element that was clicked with event.currentTarget
-            alert( "Search for " + $("#inputSizeX").val() );
+        	var newX = $("#inputSizeX").val();
+        	var newY = $("#inputSizeY").val();
+        	resizeGrid(newX, newY);
         }
 	});
 	

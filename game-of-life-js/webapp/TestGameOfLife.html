@@ -62,6 +62,40 @@ $(document).ready(function(){
 		equal(gameOfLife.grid[1][2].alive, false);
 		equal(gameOfLife.grid[3][2].alive, false);
 	});
+
+	test("Resize Grid, grow", function() {
+		var gameOfLife = new GameOfLife(15, 15);
+		
+		ok( gameOfLife.grid[0][0] != undefined);
+		ok( gameOfLife.grid[14][14] != undefined);
+
+		gameOfLife.resize(20, 30);
+
+		ok( gameOfLife.grid[0][0] != undefined);
+		ok( gameOfLife.grid[19][29] != undefined);
+	});
+
+	test("Resize Grid, decrease", function() {
+		var gameOfLife = new GameOfLife(15, 15);
+		
+		ok( gameOfLife.grid[0][0] != undefined);
+		ok( gameOfLife.grid[14][14] != undefined);
+
+		gameOfLife.resize(10, 10);
+
+		ok( gameOfLife.grid[0][0] != undefined);
+		ok( gameOfLife.grid[9][9] != undefined);
+	});
+
+	test("Resize Grid, living cell survives resize", function() {
+		var gameOfLife = new GameOfLife(15, 15);
+
+		gameOfLife.grid[5][5].alive = true
+		
+		gameOfLife.resize(10, 10);
+
+		ok( gameOfLife.grid[5][5].alive == true);
+	});
 });
 </script>
 </head>

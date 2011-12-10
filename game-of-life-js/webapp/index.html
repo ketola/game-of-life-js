@@ -16,13 +16,16 @@
 </script>
 
 <script type="text/template" id="controlsTemplate">
-	<span>Size </span><label for="inputSizeX">X:</label>
-	<input type="text" id="inputSizeX" size="4"/>
+	<fieldset>
+		<legend>Grid size</legend>
+		<label for="inputSizeX">x:</label>
+		<input type="text" id="inputSizeX" size="4" value="<%= sizeX %>"/>
 	
-	<label for="inputSizeY">Y:</label>
-	<input type="text" id="inputSizeY" size="4"/>
+		<label for="inputSizeY">y:</label>
+		<input type="text" id="inputSizeY" size="4" value="<%= sizeY %>"/>
 
-	<input type="button" id="buttonSet" value="Set" />
+		<input type="button" id="buttonSetGridSize" value="Set" />
+	</fieldset>
 </script>
 </head>
 <body id="gameOfLifeApp">
