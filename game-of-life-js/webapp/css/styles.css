@@ -23,3 +23,14 @@ input {
 #controls {
 	float: left;
 }
+
+#drawArea {
+	border-radius: 3px 3px 3px 3px; 
+	background-color: #F3FAEE; 
+	border: 1px solid #000; 
+	margin: 0 0 0 0; 
+	width: 310px; 
+	position: absolute; 
+	top: 60px; 
+	left: 220px;
+}

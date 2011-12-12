@@ -85,6 +85,7 @@ $(document).ready(function(){
 
 		ok( gameOfLife.grid[0][0] != undefined);
 		ok( gameOfLife.grid[9][9] != undefined);
+		ok( gameOfLife.grid[14] == undefined);
 	});
 
 	test("Resize Grid, living cell survives resize", function() {
