@@ -18,7 +18,7 @@ $(document).ready(function() {
 	gameOfLife = new GameOfLife(30, 30);
 	initGame();
 	createViewObjects();
-	createDrawArea(gameOfLife.sizeX, gameOfLife.sizeY);
+	createDrawArea();
 	drawGameOfLife();
 });
 
@@ -28,7 +28,7 @@ $(document).ready(function() {
  * @return
  */
 function initGame(){
-	gameOfLife.grid[16][17].alive = true;
+	/*gameOfLife.grid[16][17].alive = true;
 	gameOfLife.grid[15][17].alive = true;
 	gameOfLife.grid[14][17].alive = true;
 
@@ -42,7 +42,7 @@ function initGame(){
 	gameOfLife.grid[13][12].alive = true;
 	gameOfLife.grid[11][13].alive = true;
 	gameOfLife.grid[12][13].alive = true;
-	gameOfLife.grid[13][13].alive = true;
+	gameOfLife.grid[13][13].alive = true;*/
 }
 
 /**
@@ -52,17 +52,12 @@ function initGame(){
  * @param gameOfLifeSizeY
  * @return
  */
-function createDrawArea(gameOfLifeSizeX, gameOfLifeSizeY){
+function createDrawArea(){
 	if(paper != undefined){
 		paper.remove();
 	}
-	paper = Raphael(document.getElementById('drawArea'), gameOfLifeSizeX * 10, gameOfLifeSizeY * 10);
-	paper.setSize(gameOfLifeSizeX * 10, gameOfLifeSizeY * 10);
-	
-	gridBackground = paper.rect(0, 0, gameOfLifeSizeX * 10, gameOfLifeSizeY * 10, 0);
-	gridBackground.click(function(event) {
-		drawRect(event.layerX, event.layerY);
-	});
+	paper = Raphael(document.getElementById('drawArea'), gameOfLife.sizeX * 10, gameOfLife.sizeY * 10);
+	paper.setSize(gameOfLife.sizeX * 10, gameOfLife.sizeY * 10);
 }
 
 /**
@@ -73,12 +68,20 @@ function createDrawArea(gameOfLifeSizeX, gameOfLifeSizeY){
  * @return
  */
 function drawRect(x, y) {
-	x = Math.floor(x / 10) * 10;
-	y = Math.floor(y / 10) * 10;
-
+	var x = Math.floor(x / 10) * 10;
+	var y = Math.floor(y / 10) * 10;
+ 
 	var rect = paper.rect(x, y, 10, 10, 2);
 	rect.attr("stroke", "#84CB5E");
 	rect.attr("fill", "#446135");
+}
+
+function modifyCellAt(x, y){
+	var x = Math.floor(x / 10);
+	var y = Math.floor(y / 10);
+	
+	var cell = gameOfLife.grid[x][y];
+	cell.alive = !cell.alive;
 }
 
 function log(object) {
@@ -97,6 +100,14 @@ function log(object) {
 function drawGameOfLife() {
 	paper.clear();
 	
+	gridBackground = paper.rect(0, 0, gameOfLife.sizeX * 10, gameOfLife.sizeY * 10, 0);
+	gridBackground.attr("stroke", "#F3FAEE");
+	gridBackground.attr("fill", "#F3FAEE");
+	gridBackground.click(function(event) {
+		modifyCellAt(event.layerX, event.layerY);
+		drawRect(event.layerX, event.layerY);
+	});
+	
 	for ( var i = 0; i < gameOfLife.sizeX; i++) {
 		for ( var j = 0; j < gameOfLife.sizeY; j++) {
 			if (gameOfLife.grid[i][j].alive == true) {
@@ -104,7 +115,11 @@ function drawGameOfLife() {
 			}
 		}
 	}
+}
 
+function createNextGeneration(){
+	gameOfLife.nextGeneration();
+	drawGameOfLife();
 	drawNextGeneration();
 }
 
@@ -114,9 +129,8 @@ function drawGameOfLife() {
  * 
  * @return
  */
-function drawNextGeneration() {
-	gameOfLife.nextGeneration();
-	nextGenerationTimeout = setTimeout("drawGameOfLife()", 200);
+function drawNextGeneration() {	
+	nextGenerationTimeout = setTimeout("createNextGeneration()", 200);
 }
 
 /**
@@ -131,8 +145,16 @@ function resizeGrid(newX, newY){
 	$('#drawArea').height(newY * 10);
 	clearTimeout(nextGenerationTimeout);
 	gameOfLife.resize(newX, newY);
-	createDrawArea(newX, newY);
-    drawGameOfLife();
+	createDrawArea();
+    drawNextGeneration();
+}
+
+function startGame(){
+	createNextGeneration();
+}
+
+function stopGame(){
+	clearTimeout(nextGenerationTimeout);
 }
 
 /**
@@ -155,13 +177,23 @@ function createViewObjects() {
 		},
 		
 		events: {
-            "click input[id=buttonSetGridSize]": "resize"	
+            "click input[id=buttonSetGridSize]": "resize",
+            "click input[id=buttonPlay]": "play",
+            "click input[id=buttonStop]": "stop"
         },
         
         resize: function( event ){
         	var newX = $("#inputSizeX").val();
         	var newY = $("#inputSizeY").val();
         	resizeGrid(newX, newY);
+        },
+        
+        play: function( event ){
+        	startGame();
+        },
+        
+        stop: function( event ){
+        	stopGame();
         }
 	});
 	

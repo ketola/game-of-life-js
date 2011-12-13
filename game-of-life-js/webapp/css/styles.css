@@ -18,6 +18,7 @@ fieldset {
 
 input {
 	border-radius: 3px;
+	border-width: 0px;
 }
 
 #controls {
