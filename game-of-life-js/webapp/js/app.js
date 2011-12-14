@@ -150,10 +150,14 @@ function resizeGrid(newX, newY){
 }
 
 function startGame(){
+	$('#buttonPlay').attr('disabled', true);
+	$('#buttonStop').attr('disabled', false);
 	createNextGeneration();
 }
 
 function stopGame(){
+	$('#buttonPlay').attr('disabled', false);
+	$('#buttonStop').attr('disabled', true);
 	clearTimeout(nextGenerationTimeout);
 }
 
