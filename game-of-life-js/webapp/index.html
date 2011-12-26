@@ -7,30 +7,13 @@
 <script type="text/javascript" src="js/raphael.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/jquery.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="js/underscore.js" charset="UTF-8"></script>
-<script type="text/javascript" src="js/backbone.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/knockout-1.2.1.debug.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/jquery.tmpl.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/game-of-life.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/app.js" charset="UTF-8"></script>
 <script type="text/javascript">
 </script>
 
-<script type="text/template" id="controlsTemplate">
-	<fieldset>
-		<legend>Play / Stop</legend>
-		<input type="button" id="buttonPlay" value="Play" />
-		<input type="button" id="buttonStop" value="Stop" />
-	</fieldset>
-	<fieldset>
-		<legend>Grid size</legend>
-		<label for="inputSizeX">x:</label>
-		<input type="text" id="inputSizeX" size="4" value="<%= sizeX %>"/>
-	
-		<label for="inputSizeY">y:</label>
-		<input type="text" id="inputSizeY" size="4" value="<%= sizeY %>"/>
-
-		<input type="button" id="buttonSetGridSize" value="Set" />
-	</fieldset>
-</script>
 </head>
 <body id="gameOfLifeApp">
 <div>
@@ -38,7 +21,23 @@
 </div>
 
 
-<div id="controls"></div>
+<div id="controls">
+<fieldset>
+		<legend>Play / Stop</legend>
+		<input type="button" id="buttonPlay" value="Play" data-bind="click: startGame"/>
+		<input type="button" id="buttonStop" value="Stop" data-bind="click: stopGame"/>
+	</fieldset>
+	<fieldset>
+		<legend>Grid size</legend>
+		<label for="inputSizeX">x:</label>
+		<input type="text" id="inputSizeX" size="4" data-bind="value: gameSizeX"/>
+	
+		<label for="inputSizeY">y:</label>
+		<input type="text" id="inputSizeY" size="4" data-bind="value: gameSizeY"/>
+
+		<input type="button" id="buttonSetGridSize" value="Set" />
+	</fieldset>
+</div>
 <div id="drawArea"></div>
 </body>
 

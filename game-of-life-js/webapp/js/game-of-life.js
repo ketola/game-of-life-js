@@ -1,16 +1,17 @@
 function GameOfLife(sizeX, sizeY) {
-
 	this.sizeX = sizeX;
 	this.sizeY = sizeY;
 
-	this.grid = new Array(sizeX);
-
-	for ( var i = 0; i < sizeX; i++) {
-		this.grid[i] = new Array(sizeY);
-		for ( var j = 0; j < sizeY; j++) {
-			this.grid[i][j] = new Cell();
+	this.grid = function(sizeX, sizeY) {
+		var g = new Array(sizeX);
+		for ( var i = 0; i < sizeX; i++) {
+			g[i] = new Array(sizeY);
+			for ( var j = 0; j < sizeY; j++) {
+				g[i][j] = new Cell();
+			}
 		}
-	}
+		return g;
+	}(sizeX, sizeY);
 
 	function Cell() {
 		this.alive = false;
@@ -43,7 +44,7 @@ function GameOfLife(sizeX, sizeY) {
 	function countLivingCells(cellArray) {
 		var count = 0;
 		for ( var i = cellArray.length - 1; i >= 0; --i) {
-			if (cellArray[i] != null && cellArray[i].alive) {
+			if (cellArray[i] != undefined && cellArray[i].alive) {
 				count++;
 			}
 		}
