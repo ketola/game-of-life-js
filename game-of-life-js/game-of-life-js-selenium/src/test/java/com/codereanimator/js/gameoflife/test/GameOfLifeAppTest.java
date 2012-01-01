@@ -2,6 +2,7 @@ package com.codereanimator.js.gameoflife.test;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -24,7 +25,7 @@ public class GameOfLifeAppTest {
 	@Before
 	public void setUp() throws Exception {
 		driver = new FirefoxDriver();
-		baseUrl = "file:///C:/Users/Sauli/git/game-of-life-js/game-of-life-js/game-of-life-js-app/src/main/webapp/index.html";
+		baseUrl = new File(new File(".").getAbsolutePath()).getParentFile().getParentFile().getAbsolutePath() + File.separator + "game-of-life-js-app" + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "index.html";
 		driver.navigate().to(baseUrl);
 	}
 
