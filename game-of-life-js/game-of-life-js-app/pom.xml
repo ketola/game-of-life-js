@@ -7,9 +7,7 @@
     <groupId>com.codereanimator.js</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.codereanimator.js</groupId>
   <artifactId>game-of-life-js-app</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>game-of-life-js-app Maven Webapp</name>
   <url>http://maven.apache.org</url>
