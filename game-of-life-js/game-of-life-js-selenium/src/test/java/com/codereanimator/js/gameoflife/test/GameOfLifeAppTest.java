@@ -42,6 +42,22 @@ public class GameOfLifeAppTest {
 		assertTrue(driver.findElement(By.id("buttonPlay")).isEnabled());
 		assertFalse(driver.findElement(By.id("buttonStop")).isEnabled());
 	}
+	
+	@Test
+	public void testSetGameDimensions() throws Exception {
+		assertEquals("30", driver.findElement(By.id("inputSizeX")).getAttribute("value"));
+		assertEquals("30", driver.findElement(By.id("inputSizeY")).getAttribute("value"));
+		
+		driver.findElement(By.id("inputSizeX")).clear();
+		driver.findElement(By.id("inputSizeX")).sendKeys("50");
+		driver.findElement(By.id("inputSizeY")).clear();
+		driver.findElement(By.id("inputSizeY")).sendKeys("60");
+		
+		driver.findElement(By.id("buttonSetGridSize")).click();
+		
+		assertEquals("500px", driver.findElement(By.id("drawArea")).getCssValue("width"));
+		assertEquals("600px", driver.findElement(By.id("drawArea")).getCssValue("height"));
+	}
 
 	@After
 	public void tearDown() throws Exception {
