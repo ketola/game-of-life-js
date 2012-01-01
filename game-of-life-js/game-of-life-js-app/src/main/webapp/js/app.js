@@ -62,13 +62,18 @@ function GameOfLifeApp(){
 		var cell = gameOfLife.grid[x][y];
 		cell.alive = !cell.alive;
 	};
-	
+		
 	this.resizeGrid = function(newX, newY){
 		$('#drawArea').width(newX * 10);
 		$('#drawArea').height(newY * 10);
 		gameOfLife.resize(newX, newY);
 		drawArea.drawGameOfLife();
 	};
+	
+	this.resize = function(){
+		this.resizeGrid($("#inputSizeX").val(), $("#inputSizeY").val());
+	};
+
 
 	this.startGame = function(){
 		$('#buttonPlay').attr('disabled', true);
